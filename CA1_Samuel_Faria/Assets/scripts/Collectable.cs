@@ -1,28 +1,29 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class Collectable : MonoBehaviour
 {
+    public int gemsCount = 0;
+    public Text gemText;
 
-// codetaken from https://www.youtube.com/watch?v=5GWRPwuWtsQ&t=457s
- public int gemsCount;
- public Text gemText;
- 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-
+        UpdateCounter();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddGem()
     {
-        gemText.text = "9/" + gemsCount.ToString();
+        gemsCount++;
+        UpdateCounter();
+      
     }
 
-    
-   
+    void UpdateCounter()
+    {
+        
+            gemText.text = gemsCount + "/9";
+       
+    }
 }

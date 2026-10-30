@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
   public float jumpHeight = 3.4f;
   public bool isJumping = false;
   public Collectable ct;
+  public int lives = 3;
  
   
   
@@ -58,7 +59,15 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
 
-      
+        if(collision.colider.name.Contains("EnemyProjectile"))
+        {
+            lives--;
+          if(lives <=0)
+          {
+            Destroy(this.gameObject);
+          }
+        }
+
      if(isJumping)
       isJumping = false;
       
@@ -66,22 +75,19 @@ public class Player : MonoBehaviour
     }
 
 //part of the code taken from https://www.youtube.com/watch?v=5GWRPwuWtsQ&t=457s
-     void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.tag == "Collectable")
-        { 
-            Destroy(other.gameObject);
-            ct.gemsCount++;
-            
-            
-        }
-
-
-    }
-
-   
-
-
-      
     
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.CompareTag("Collectable"))
+    {
+        
+         
+            ct.AddGem();
+            Destroy(other.gameObject);
+        
+       
+    }  
+
+ }
+
 }

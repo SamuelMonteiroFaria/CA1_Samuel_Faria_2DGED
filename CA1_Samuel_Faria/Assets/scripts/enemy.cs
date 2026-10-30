@@ -12,8 +12,10 @@ public class enemy : MonoBehaviour
     [SerializeField]  float fireTimer = 0.5f;
     float fireCountdown;
     [SerializeField] GameObject projectile;
-    [SerializeField] int strength ;
-    bool isAlive = true;
+     int maxHealth = 3;
+    int currentHealth;
+    [SerializeField] float sightHeight = -0.5f;
+  
 
 
 
@@ -24,7 +26,8 @@ public class enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         timeInDirection = distanceTime;
-        animator.SetFloat("Move X", direction);
+        animator.SetFloat("moving", direction);
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -38,7 +41,7 @@ public class enemy : MonoBehaviour
         {
             direction *= -1;
             timeInDirection = distanceTime;
-            animator.SetFloat("Move X", direction);
+            animator.SetFloat("moving", direction);
         }
 
 
@@ -48,51 +51,79 @@ public class enemy : MonoBehaviour
      else if(direction < -0.01f)
      transform.localScale = new Vector3(-1,1,1);
 
+RaycastHit2D hit = Physics2D.Raycast(
+    rb.transform.position,
+    new Vector2(direction, 0),
+    5f,
+    LayerMask.GetMask("Player")
 
+);
+        if(hit.collider != null)
+        {
+            if (hit.collider.GetComponent<Player>() != null)
+            {
+                Fire();
+            }
+        }
 
+        fireCountdown += Time.fixedDeltaTime;
 
-     RaycastHit2D hit = Physics2D.Raycast(position, new Vector2(direction, 0), 5f, LayerMask.GetMask("Player"));
-     if(hit.collider != null)
-     {
-        if(hit.collider.GetComponent<Player>() != null)
-        Fire();
-     }
-     fireCountdown -= Time.deltaTime;
+      
 
 
     }
+void OnDrawGizmos()
+{
+    Gizmos.color = Color.red;
+
+    Vector3 origin = transform.position + new Vector3(0, -0.5f, 0);
+
+    Gizmos.DrawRay(origin, Vector3.right * 5f);
+    Gizmos.DrawRay(origin, Vector3.left * 5f);
+}
 
 
      public void Fire()
     {
-        fireCountdown += Time.deltaTime;
-        if (fireCountdown >= fireTimer)
+
+        if (fireCountdown > fireTimer)
         {
-            GameObject go = Instantiate(projectile, rb.transform.position, Quaternion.identity);
-            Projectile pro = go.GetComponent<Projectile>();
-            pro.Launch(new Vector2(direction, 0), 300);
+            
+
+            GameObject prjoj = Instantiate(projectile, rb.transform.position, Quaternion.identity);
+            Projectile prj = prjoj.GetComponent<Projectile>();
+            prj.Launch(new Vector2(direction, 0), 300);
             fireCountdown = 0;
+            
+        }
+           
+         
+
+    }
+
+      private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.GetComponent<Projectile>() != null)
+        {
+          
+            rb.linearVelocity = new Vector2(0, 0);
+            TakeDamage(1);
+            
         }
     }
 
 
-    void OnCollisionEnter2D(Collision2D col)
+    public void TakeDamage(int attackDamage)
     {
-        if(col.collider.name.Contains("Snowball"))
-        {
-            hit();
-            GetComponent<Rigidbody2D>().linearVelocity = new Vector2(0,0);
-        }
-    }
+        currentHealth -= attackDamage;
 
-
-    public void hit()
-    {
-        strength--;
-        if(strength <=0)
+        if(currentHealth <=0)
         {
+          animator.SetTrigger("die");
           Destroy(this.gameObject);
         }
     }
+
+
 
 }
