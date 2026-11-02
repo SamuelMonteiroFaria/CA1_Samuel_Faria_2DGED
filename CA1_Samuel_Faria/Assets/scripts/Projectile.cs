@@ -3,6 +3,8 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
+   
+
     
      private Rigidbody2D rb;
 
@@ -21,5 +23,9 @@ public class Projectile : MonoBehaviour
         Destroy(this.gameObject);
     }
   
+    void Update()
+    {
+   
 
+    }
 }

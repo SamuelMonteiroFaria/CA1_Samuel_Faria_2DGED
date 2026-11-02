@@ -52,11 +52,10 @@ public class enemy : MonoBehaviour
      transform.localScale = new Vector3(-1,1,1);
 
 RaycastHit2D hit = Physics2D.Raycast(
-    rb.transform.position,
+    rb.transform.position + new Vector3(0, sightHeight, 0),
     new Vector2(direction, 0),
     5f,
     LayerMask.GetMask("Player")
-
 );
         if(hit.collider != null)
         {
@@ -72,11 +71,12 @@ RaycastHit2D hit = Physics2D.Raycast(
 
 
     }
+
 void OnDrawGizmos()
 {
     Gizmos.color = Color.red;
 
-    Vector3 origin = transform.position + new Vector3(0, -0.5f, 0);
+    Vector3 origin = transform.position + new Vector3(0, sightHeight, 0);
 
     Gizmos.DrawRay(origin, Vector3.right * 5f);
     Gizmos.DrawRay(origin, Vector3.left * 5f);

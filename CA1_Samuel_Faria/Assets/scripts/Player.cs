@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
   public bool isJumping = false;
   public Collectable ct;
   public int lives = 3;
+  [SerializeField] Image[] images;
  
   
   
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if(collision.colider.name.Contains("EnemyProjectile"))
+        if(collision.collider.name.Contains("EnemyProjectile"))
         {
             lives--;
           if(lives <=0)
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
           }
         }
+
 
      if(isJumping)
       isJumping = false;

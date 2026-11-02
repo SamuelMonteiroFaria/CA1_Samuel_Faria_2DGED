@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1143736189614048734}
   - component: {fileID: -7588699767370833208}
   m_Layer: 8
-  m_Name: projectile 1
+  m_Name: EnemyProjectile
   m_TagString: enemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
