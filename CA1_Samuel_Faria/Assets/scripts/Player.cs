@@ -10,14 +10,10 @@ public class Player : MonoBehaviour
   public float jumpHeight = 3.4f;
   public bool isJumping = false;
   public Collectable ct;
-  public int lives = 3;
-  [SerializeField] Image[] images;
- 
-  
-  
+  public  static int lives = 3;
+  Animator animator;
 
   
-  Animator animator;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

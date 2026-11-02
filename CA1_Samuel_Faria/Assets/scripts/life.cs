@@ -3,45 +3,23 @@ using UnityEngine.UI;
 
 public class life : MonoBehaviour
 {
+    public GameObject[] hearts;
+  //code taken from this video https://www.youtube.com/watch?v=Ay159WsGDJQ
 
-        public Image[] images;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+   
     void Update()
     {
-        
-    }
-
-    
-    public void UpdateLives(int lives)
-    {
-        switch (lives)
+        if(Player.lives < 1)
         {
-            case 0:
-                images[0].enabled = false;
-                images[1].enabled = false;
-                images[2].enabled = false;
-                break;
-            case 1:
-                images[0].enabled = false;
-                images[1].enabled = false;
-                images[2].enabled = true;
-                break;
-            case 2:
-                images[0].enabled = false;
-                images[1].enabled = true;
-                images[2].enabled = true;
-                break;
-            case 4:
-                images[0].enabled = true;
-                images[1].enabled = true;
-                images[2].enabled = true;
-                break;
+            Destroy(hearts[0].gameObject);
+        }
+        else if(Player.lives < 2)
+        {
+            Destroy(hearts[1].gameObject);
+        }
+        else if(Player.lives < 3)
+        {
+            Destroy(hearts[2].gameObject);
         }
     }
 
